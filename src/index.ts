@@ -23,5 +23,6 @@ export type {
     ChainStatus,
     AccountStatus,
 } from './types/connectButton'
+export { CONNECT_BUTTON_SIZE_PRESETS } from './types/connectButton'
 
 export { config, DEFAULT_CHAIN_ID } from './wagmi/config'

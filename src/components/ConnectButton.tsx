@@ -22,9 +22,10 @@
 //   点 ChainSelector → 见 ChainSelector.tsx（切链）
 //   点红色电源图标 → disconnect() 断开，不删钱包账户
 //
-// 【props 与设计图】见 types/connectButton.ts、App.tsx 三个 section
+// 【props】传 size 即可：md 默认 | lg 大尺寸 | sm 紧凑（见 CONNECT_BUTTON_SIZE_PRESETS）
+//   集成方只放一个 <ConnectButton size="lg" />，不必同时摆三个
 //
-// 【注意】外层必须有 <WalletProvider>；showBalance 且 accountStatus=full 才显示余额
+// 【注意】外层必须有 <WalletProvider>；显示余额 = showBalance 且 accountStatus=full
 // =============================================================================
 
 import { useState } from 'react'
@@ -33,26 +34,29 @@ import { WalletModal } from './WalletModal'
 import { ChainSelector } from './ChainSelector'
 import { useWalletBalance } from '../hooks/useWalletBalance'
 import { formatBalanceText } from '../utils/formatBalanceText'
-import type { ConnectButtonProps } from '../types/connectButton'
+import {
+    CONNECT_BUTTON_SIZE_PRESETS,
+    type ConnectButtonProps,
+    type ConnectButtonSize,
+} from '../types/connectButton'
 
-const defaultProps = {
-    label: '连接钱包',
-    size: 'md' as const,
-    showBalance: true,
-    chainStatus: 'full' as const,
-    accountStatus: 'full' as const,
-}
+const DEFAULT_SIZE: ConnectButtonSize = 'md'
 
 export function ConnectButton(props: ConnectButtonProps) {
     const {
-        label = defaultProps.label,
-        size = defaultProps.size,
-        showBalance = defaultProps.showBalance,
-        chainStatus = defaultProps.chainStatus,
-        accountStatus = defaultProps.accountStatus,
+        label = '连接钱包',
+        size = DEFAULT_SIZE,
+        showBalance: showBalanceProp,
+        chainStatus: chainStatusProp,
+        accountStatus: accountStatusProp,
         onConnect,
         className = '',
     } = props
+
+    const preset = CONNECT_BUTTON_SIZE_PRESETS[size]
+    const showBalance = showBalanceProp ?? preset.showBalance
+    const chainStatus = chainStatusProp ?? preset.chainStatus
+    const accountStatus = accountStatusProp ?? preset.accountStatus
 
     const { address, isConnecting, isConnected } = useAccount()
     const { disconnect } = useDisconnect()
@@ -86,9 +90,11 @@ export function ConnectButton(props: ConnectButtonProps) {
         setModalOpen(true)
     }
 
+    const connectingBtnSize = { sm: 'px-3 py-1.5 text-sm', md: 'px-4 py-2 text-sm', lg: 'px-6 py-3 text-base' }[size]
+
     if (isConnecting) {
         return (
-            <button type="button" disabled className={`inline-flex cursor-wait items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 font-medium text-white ${className}`}>
+            <button type="button" disabled className={`inline-flex cursor-wait items-center gap-2 rounded-lg bg-blue-500 font-medium text-white ${connectingBtnSize} ${className}`}>
                 <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />

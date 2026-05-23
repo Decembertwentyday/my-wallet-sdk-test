@@ -207,13 +207,17 @@ flowchart TB
 
 ## 7. ConnectButton 三种样式怎么设计
 
-| 模式 | 代码要点 |
-|------|----------|
-| 默认 | `<ConnectButton />` |
-| 大尺寸 | `size="lg"` `accountStatus="full"` |
-| 紧凑 | `size="sm"` `chainStatus="icon"` `showBalance={false}` |
+**集成方页面只放一个按钮**，用 `size` 选样式，不必像 Demo 那样摆三个：
 
-同一组件，props 驱动 Tailwind class。
+| size | 效果 | 用法 |
+|------|------|------|
+| `md`（默认） | 中等按钮；已连接时链名+地址+余额 | `<ConnectButton />` 或 `size="md"` |
+| `lg` | 更大 padding / 字号；已连接仍为完整信息 | `<ConnectButton size="lg" />` |
+| `sm` | 紧凑；已连接时链仅图标、账户仅地址、不显示余额 | `<ConnectButton size="sm" />` |
+
+预设表 `CONNECT_BUTTON_SIZE_PRESETS`（`types/connectButton.ts`）会在组件内自动合并；需要覆盖时再单独传 `showBalance` / `chainStatus` / `accountStatus`。
+
+本地 Demo（`App.tsx`）用下拉框切换 `size` 预览三种效果，业务代码删掉 select 即可。
 
 ---
 
@@ -279,7 +283,7 @@ flowchart TB
 | 文件 | 职责 | 有无点击流程注释 |
 |------|------|------------------|
 | `main.tsx` | React 入口 | — |
-| `App.tsx` | Demo 三种 ConnectButton | 结构说明 |
+| `App.tsx` | Demo 单个 ConnectButton + size 切换 | 结构说明 |
 | `index.ts` | npm 导出 | — |
 | **components** | | |
 | `WalletProvider.tsx` | Provider 入口 | — |
