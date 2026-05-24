@@ -1,0 +1,9 @@
+/**
+ * SDK 对外样式（发布到 dist/styles.css）
+ * 使用方：import '你的包名/styles.css'
+ */
+@import 'tailwindcss';
+
+@source './components/**/*.tsx';
+@source './hooks/**/*.ts';
+@source './utils/**/*.ts';

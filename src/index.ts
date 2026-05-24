@@ -5,7 +5,7 @@
 // 使用方：
 //   import { WalletProvider, ConnectButton, useWalletBalance } from '你的包名'
 //
-// 注意：ConnectButton 依赖 Tailwind；宿主项目需 @import "tailwindcss"
+// 样式：宿主项目 import '包名/styles.css'（见 README）
 //
 // =============================================================================
 

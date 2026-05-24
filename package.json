@@ -1,39 +1,94 @@
 {
-  "name": "wallet-sdk",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@allen_chai/wallet-sdk",
+  "version": "0.1.0",
+  "description": "React Web3 wallet SDK — ConnectButton, multi-chain, EIP-6963 wallet picker",
   "type": "module",
+  "license": "MIT",
+  "private": false,
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "web3",
+    "wallet",
+    "wagmi",
+    "viem",
+    "react",
+    "connect-button"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run build:lib && npm run build:css",
+    "build:lib": "tsup",
+    "build:css": "tailwindcss -i ./src/sdk.css -o ./dist/styles.css --minify",
+    "build:demo": "tsc -b && vite build",
+    "prepublishOnly": "npm run build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@allen_chai/wallet-sdk": "^0.1.0",
     "@coinbase/wallet-sdk": "^4.3.6",
     "@metamask/connect-evm": "~1.0.0",
-    "@tanstack/react-query": "^5.100.11",
     "@wagmi/connectors": "^8.0.14",
-    "@wagmi/core": "^3.4.12",
-    "react": "^19.2.6",
-    "react-dom": "^19.2.6",
-    "viem": "^2.50.3",
-    "wagmi": "^3.6.15"
+    "@wagmi/core": "^3.4.12"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "viem": "^2.0.0",
+    "wagmi": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": {
+      "optional": false
+    }
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@tailwindcss/cli": "^4.3.0",
     "@tailwindcss/vite": "^4.3.0",
+    "@tanstack/react-query": "^5.100.11",
     "@types/node": "^24.12.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
+    "@wagmi/connectors": "^8.0.14",
+    "@wagmi/core": "^3.4.12",
     "eslint": "^10.3.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "tailwindcss": "^4.3.0",
+    "tsup": "^8.5.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.59.2",
-    "vite": "^8.0.12"
+    "viem": "^2.50.3",
+    "vite": "^8.0.12",
+    "wagmi": "^3.6.15"
   }
 }

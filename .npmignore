@@ -1,0 +1,14 @@
+# 发布到 npm 时忽略（与 package.json 的 files 二选一即可，这里做双保险）
+src/
+docs/
+examples/
+index.html
+vite.config.ts
+tsup.config.ts
+tsconfig*.json
+eslint.config.js
+.env*
+*.local
+.idea
+.vscode
+dist-demo/

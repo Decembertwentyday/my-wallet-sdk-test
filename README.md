@@ -1,73 +1,66 @@
-# React + TypeScript + Vite
+# @allen_chai/wallet-sdk
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React Web3 钱包 SDK：连接按钮、多链切换、EIP-6963 钱包列表、余额展示。
 
-Currently, two official plugins are available:
+> 在其他项目里接入：**[docs/USAGE_IN_OTHER_PROJECT.md](./docs/USAGE_IN_OTHER_PROJECT.md)**（逐步教程）  
+> 发布说明：[docs/NPM_PUBLISH_GUIDE.md](./docs/NPM_PUBLISH_GUIDE.md)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 安装
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install @allen_chai/wallet-sdk react react-dom wagmi viem @tanstack/react-query
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 快速使用
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```tsx
+import { WalletProvider, ConnectButton } from '@allen_chai/wallet-sdk'
+import '@allen_chai/wallet-sdk/styles.css'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+export function App() {
+    return (
+        <WalletProvider>
+            <ConnectButton size="md" />
+        </WalletProvider>
+    )
+}
 ```
+
+### `size` 三种样式
+
+| size | 说明 |
+|------|------|
+| `md` | 默认（可省略） |
+| `lg` | 大尺寸 |
+| `sm` | 紧凑：链仅图标、仅地址、不显示余额 |
+
+## 导出 API
+
+| 导出 | 说明 |
+|------|------|
+| `WalletProvider` | 必须包裹应用 |
+| `ConnectButton` | 连接 / 已连接 UI |
+| `ChainSelector` | 链切换（也可单独用） |
+| `useWalletBalance` | 当前链余额 |
+| `useWalletSignMessage` | 签名 |
+| `useWalletSendTransaction` | 发交易 |
+| `config`, `DEFAULT_CHAIN_ID` | 高级：自定义 wagmi |
+
+## 本地开发本仓库（维护 SDK 的人）
+
+```bash
+npm install
+npm run dev          # Demo 页面（App.tsx + src/demo/）
+npm run build        # 打 npm 包用的 dist/
+npm run build:demo   # 打 Vite 静态站（可选）
+```
+
+## 文档
+
+- **在其他项目使用**：[docs/USAGE_IN_OTHER_PROJECT.md](./docs/USAGE_IN_OTHER_PROJECT.md)
+- 架构与设计：[docs/WALLET_SDK_DESIGN.md](./docs/WALLET_SDK_DESIGN.md)
+- 发布步骤：[docs/NPM_PUBLISH_GUIDE.md](./docs/NPM_PUBLISH_GUIDE.md)
+
+## License
+
+MIT
